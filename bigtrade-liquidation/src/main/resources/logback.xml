@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<property name="log.root.level" value="INFO" /> <!-- 日志级别 -->
+	<property name="log.dir" value="logdir" /> <!-- 日志文件存储位置 -->
+
+	<!-- 控制台输出 ConsoleAppender -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</Pattern>
+		</layout>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- 只记录INFO及以上级别的日志. -->
+			<level>INFO</level>
+		</filter>
+	</appender>
+
+	<!-- 记录系统日志，将系统日志记录下来 RollingFileAppender -->
+	<appender name="SYSTEMLOG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+  		<!-- 		日志过滤器 LevelFilter  -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<!-- 滚动策略  -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				 <fileNamePattern>${log.dir}/all-%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+			     <maxFileSize>10MB</maxFileSize>      
+        </rollingPolicy>
+		<encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</pattern>
+		</encoder>
+	</appender>
+	
+	 <appender name="file—operation"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				 <fileNamePattern>${log.dir}/operation-%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+			     <maxFileSize>10MB</maxFileSize>      
+        </rollingPolicy>
+       <encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</pattern>
+		</encoder>
+    </appender>
+    
+	 <appender name="file—system"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				 <fileNamePattern>${log.dir}/system-%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+			     <maxFileSize>10MB</maxFileSize>      
+        </rollingPolicy>
+       <encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</pattern>
+		</encoder>
+    </appender>
+
+	 <appender name="file—protocol"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+       <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+				 <fileNamePattern>${log.dir}/protocol-%d{yyyy-MM-dd}.%i.log</fileNamePattern>  
+			     <maxFileSize>10MB</maxFileSize>      
+        </rollingPolicy>
+       <encoder>
+			<pattern>
+				%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} %msg%n
+			</pattern>
+		</encoder>
+    </appender>
+
+<!-- 	addtivity:是否向上级logger传递打印信息。默认是true。 -->
+	 <logger name="operation" additivity="true">
+        <appender-ref ref="file—operation"/>  
+      </logger> 
+	 <logger name="system" additivity="true">
+        <appender-ref ref="file—system"/>  
+      </logger> 
+	 <logger name="protocol" additivity="true">
+        <appender-ref ref="file—protocol"/>  
+      </logger> 
+
+	<!-- root, 只有在level及以上级别的日志会被输出 -->
+	<!-- 例如: 当root level设置为INFO时, appender DEBUG中无法获取到DEBUG级别的日志事件, 则DEBUG日志信息也不会写入debug.log中. -->
+	<root>
+		<level value="${log.root.level}" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="SYSTEMLOG" />
+	</root>
+
+</configuration>
