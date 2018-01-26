@@ -1,0 +1,24 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.1.56:8761/eureka/
+
+server:
+  port: 8866
+
+spring:
+  application:
+    name: bigtrade-zuul
+
+security:
+  basic:
+    enabled: false
+
+zuul:
+  routes:
+    bigtrade-finance:
+      path: /fi/**
+      serviceId: bigtrade-finance
+    bigtrade-purchasing:
+      path: /pu/**
+      serviceId: bigtrade-purchasing
